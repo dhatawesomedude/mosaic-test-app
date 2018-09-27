@@ -95,7 +95,7 @@ export class PhotoMosaicService {
     this.onComplete.emit();
   }
   // Creates an array of the image data of the tile from the data of whole image
-  private getImageData (startX: number, startY: number, width: number, originalImageData: ImageData) {
+  private getImageData (startX: number, startY: number, width: number, originalImageData: ImageData): number[] {
     const data = [];
     for (let x = startX; x < (startX + this.tileWidth); x++) {
       const xPos = x * 4;
