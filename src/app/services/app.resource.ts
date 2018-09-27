@@ -16,12 +16,12 @@ const HEADERS_CONFIG = {
 export class AppResource {
   constructor(private http: HttpClient) {}
 
-  public getImageList (request: app.ImageApi.GET.Request): Observable<app.ImageApi.GET.Response> {
-    return this.http.get<app.ImageApi.GET.Response>
+  public getImageList (request: app.imageApi.get.Request): Observable<app.imageApi.get.Response> {
+    return this.http.get<app.imageApi.get.Response>
     (`${BASE_URL}/gallery/r/${request.subreddit}/time/week/${request.pageId}`, HEADERS_CONFIG);
   }
-  public uploadImage (name, blob): Observable<app.ImageApi.POST.Response> {
-    return this.http.post<app.ImageApi.POST.Response>
+  public uploadImage (name: string, blob: string): Observable<app.imageApi.post.Response> {
+    return this.http.post<app.imageApi.post.Response>
     (`${BASE_URL}/image`, {image: blob, name},
       HEADERS_CONFIG);
   }
