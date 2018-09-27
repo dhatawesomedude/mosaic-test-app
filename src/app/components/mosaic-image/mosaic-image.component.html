@@ -1,0 +1,9 @@
+<div>
+  <h1>Mosaic</h1>
+  <div>
+    <button *ngIf="!uploadedImageUrl && !isLoading" (click)="convertCanvasToImage()" class="btn">Send to imgur</button>
+    <mat-spinner *ngIf="isLoading" class="loading-spinner" [mode]="'indeterminate'" [diameter]="50"></mat-spinner>
+  </div>
+  <h3 *ngIf="!isLoading && imageUploadClicked">Upload done. <a [href]="uploadedImageUrl" [target]="'_blank'">View on Imgur</a></h3>
+  <canvas class="mosaic-image-wrapper" #mosaicCanvas ></canvas>
+</div>
