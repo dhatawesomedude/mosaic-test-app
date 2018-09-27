@@ -9,8 +9,9 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "target": "es5",
-    "strict": false,
+    "strict": true,
     "typeRoots": [
       "node_modules/@types"
     ],
