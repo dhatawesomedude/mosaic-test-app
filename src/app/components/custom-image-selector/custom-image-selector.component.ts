@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { app } from '../../models/app.model';
 
 @Component({
   selector: 'app-custom-image-selector',
@@ -9,16 +10,21 @@ import { Component } from '@angular/core';
 export class CustomImageSelectorComponent {
   public imageSrc: string;
   public mosaicGenerated = false;
-  constructor () {}
 
-  public onFileChange(file: any): void {
+  public onFileChange(file: app.HTMLInputEvent): void {
     if (file.target.files && file.target.files[0]) {
       const reader: FileReader = new FileReader();
 
       reader.onload = ((e) => {
-        this.imageSrc = e.target.result;
+        if (e.target && e.target.result) {
+          this.imageSrc = e.target.result;
+        }
       });
       reader.readAsDataURL(file.target.files[0]);
     }
+  }
+
+  public onMosaicGenerated(): void {
+    this.mosaicGenerated = true;
   }
 }

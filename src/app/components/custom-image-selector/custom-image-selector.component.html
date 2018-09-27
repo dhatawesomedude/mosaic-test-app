@@ -1,7 +1,7 @@
 <div>
-  <app-mosaic-image *ngIf="imageSrc" (mosaicGenerated)="mosaicGenerated = true" [base64ImageData]="imageSrc"></app-mosaic-image>
+  <app-mosaic-image *ngIf="imageSrc" (mosaicGenerated)="onMosaicGenerated()" [base64ImageData]="imageSrc"></app-mosaic-image>
   <div *ngIf="!mosaicGenerated" class="upload-btn-wrapper">
     <button class="btn">Upload a file</button>
-    <input [name]="'my_file'" [type]="'file'" [accept]="'image/*'" (change)="onFileChange($event)" />
+    <input class="file-input" [name]="'my_file'" [type]="'file'" [accept]="'image/*'" (change)="onFileChange($event)" />
   </div>
 </div>
