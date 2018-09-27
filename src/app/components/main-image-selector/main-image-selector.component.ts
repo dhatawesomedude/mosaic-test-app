@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { of, Subject, throwError } from 'rxjs';
+import { finalize, switchMap, takeUntil } from 'rxjs/operators';
 import { app } from '../../models/app.model';
 import { AppResource } from '../../services/app.resource';
 
@@ -18,11 +17,13 @@ export class MainImageSelectorComponent implements OnInit, OnDestroy {
   public isLoading: boolean;
   public loadingError: boolean;
   public destroy$: Subject<void> = new Subject<void>();
+
   // pagination
   public pageLength = 100;
   public readonly pageSize = 10;
-  public pageEvent: PageEvent;
-  constructor(private appResource: AppResource, private router: Router) {
+
+  constructor(private appResource: AppResource,
+              private router: Router) {
   }
 
   public ngOnInit(): void {
@@ -30,16 +31,13 @@ export class MainImageSelectorComponent implements OnInit, OnDestroy {
     this.appResource.getImageList({subreddit: 'aww', pageId: 1})
       .pipe(
         takeUntil(this.destroy$),
+        switchMap((result) => result.success ? of(result) : throwError(result)),
         finalize(() => this.isLoading = false)
       )
       .subscribe(result => {
-        if (result.success) {
-          this.imageList = result.data.filter(this.imageFilter);
-          this.pageLength = this.imageList.length;
-          this.imageListForCurrentPage = this.imageList.slice(0, 10);
-        }  else {
-          this.loadingError = true;
-        }
+        this.imageList = result.data.filter(this.imageFilter);
+        this.pageLength = this.imageList.length;
+        this.imageListForCurrentPage = this.imageList.slice(0, 10);
       }, error => this.loadingError = true);
   }
 
@@ -49,20 +47,17 @@ export class MainImageSelectorComponent implements OnInit, OnDestroy {
 
   public onPageChange(page: app.MatPage): void {
     const startIndex = page.pageIndex * page.pageSize;
-    let endIndex = startIndex + page.pageSize;
     // endIndex cannot be larger than the array length
-    if (endIndex > this.imageList.length) {
-      endIndex = this.imageList.length;
-    }
+    const endIndex = startIndex + page.pageSize > this.imageList.length ?
+      this.imageList.length : startIndex + page.pageSize;
     this.imageListForCurrentPage = this.imageList.slice(startIndex, endIndex);
   }
 
-  public selectImage(image: app.ImgurGalleryItem): void {
+  public selectImage (image: app.ImgurGalleryItem): void {
     this.router.navigate(['/imgur-image', image.link]);
   }
 
   public ngOnDestroy (): void {
     this.destroy$.next();
   }
-
 }
