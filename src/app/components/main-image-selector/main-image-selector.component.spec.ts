@@ -4,7 +4,7 @@ import { MatPaginatorModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { DummyComponent, imageListMock } from '../../mocks/mocks';
+import { DummyComponent, imageListMock } from '../../../mocks/mocks';
 import { AppResource } from '../../services/app.resource';
 import { MainImageSelectorComponent } from './main-image-selector.component';
 

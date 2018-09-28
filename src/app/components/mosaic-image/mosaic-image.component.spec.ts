@@ -4,7 +4,7 @@ import { MatProgressSpinnerModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY, of } from 'rxjs';
-import { DummyComponent, imageListMock } from '../../mocks/mocks';
+import { DummyComponent, imageListMock } from '../../../mocks/mocks';
 import { AppResource } from '../../services/app.resource';
 import { PhotoMosaicService } from '../../services/mosaic-photo.service';
 import { MosaicImageComponent } from './mosaic-image.component';
