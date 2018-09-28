@@ -41,7 +41,7 @@ export class MainImageSelectorComponent implements OnInit, OnDestroy {
       }, error => this.loadingError = true);
   }
 
-  public imageFilter(galleryItem: app.ImgurGalleryItem): boolean {
+  private imageFilter(galleryItem: app.ImgurGalleryItem): boolean {
     return (/\.(gif|jpe?g|png)$/i).test(galleryItem.link);
   }
 
