@@ -4,25 +4,22 @@ import { MatPaginatorModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { imageListMock } from '../../mocks/mocks';
+import { DummyComponent, imageListMock } from '../../mocks/mocks';
 import { AppResource } from '../../services/app.resource';
 import { MainImageSelectorComponent } from './main-image-selector.component';
 
 let fixture: ComponentFixture<MainImageSelectorComponent>;
-let appResourceSpy: AppResource;
+let appResourceStub: AppResource;
 let component: MainImageSelectorComponent;
 let componentDE: DebugElement;
 
-@Component({
-  template: ''
-})
-class DummyComponent { }
+
 
 describe('MainImageSelectorComponent', () => {
   beforeEach(async(() => {
 
     // spy setup
-    appResourceSpy = jasmine.createSpyObj({
+    appResourceStub = jasmine.createSpyObj({
       getImageList: of({
         data: imageListMock,
         success: true
@@ -35,16 +32,19 @@ describe('MainImageSelectorComponent', () => {
 
     // testBed configuration
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([{
+      imports: [
+        RouterTestingModule.withRoutes([{
         path: 'imgur-image/:id',
         component: DummyComponent
-      }]), MatPaginatorModule],
+      }]),
+        MatPaginatorModule
+      ],
       declarations: [
         MainImageSelectorComponent,
         DummyComponent
       ],
       providers: [
-        { provide: AppResource, useValue: appResourceSpy }
+        { provide: AppResource, useValue: appResourceStub }
       ],
       // The NO_ERRORS_SCHEMA tells the Angular compiler to ignore unrecognized elements and attributes.
       // https://angular.io/guide/testing#no_errors_schema
@@ -57,7 +57,7 @@ describe('MainImageSelectorComponent', () => {
 
   it('should request, and set image list on init', async(() => {
     fixture.detectChanges();
-    expect(appResourceSpy.getImageList).toHaveBeenCalled();
+    expect(appResourceStub.getImageList).toHaveBeenCalled();
     expect(component.imageList).toBeDefined();
   }));
 
