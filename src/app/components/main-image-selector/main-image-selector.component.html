@@ -1,13 +1,18 @@
 <div>
   <h2>
-    Click <a [routerLink]="['/custom-image']">here to upload your own image</a>  or select one of the images in the list below.
+    Click <a [routerLink]="['/custom-image']">here to upload your own image</a>  or click on one of the images in the list below.
   </h2>
-  <mat-paginator [length]="pageLength"
-                 [pageSize]="pageSize"
-                 [hidePageSize]="true"
-                 (page)="onPageChange($event)">
-  </mat-paginator>
   <div *ngFor="let image of imageListForCurrentPage">
-    <img (click)="selectImage(image)" class="imgur-img-wrapper" [src]="image.link"/>
+    <button class="imgur-img-wrapper">
+      <img (click)="selectImage(image)" class="imgur-img" [src]="image.link" alt=""/>
+    </button>
   </div>
+  <div *ngIf="imageListForCurrentPage" class="paginator">
+    <mat-paginator [length]="pageLength"
+                   [pageSize]="pageSize"
+                   [hidePageSize]="true"
+                   (page)="onPageChange($event)">
+    </mat-paginator>
+  </div>
+
 </div>

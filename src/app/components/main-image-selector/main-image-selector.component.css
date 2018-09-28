@@ -1,5 +1,16 @@
-.imgur-img-wrapper {
+.imgur-img {
   height: 500px;
   width: 500px;
   border: solid 10px;
+}
+
+.paginator .mat-paginator {
+  font-size: 30px;
+}
+
+.imgur-img-wrapper {
+  opacity: 1;
+  border: 0;
+  padding: 0px;
+  cursor: pointer;
 }
