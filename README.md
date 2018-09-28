@@ -1,5 +1,5 @@
 # AssignarApp
-Application that converts an image into a mosaic and uploads an image to imgur for sharing.
+Application that converts an image into a mosaic and uploads the image to imgur for sharing.
 Built with Angular, using [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
 
 ## Development server
