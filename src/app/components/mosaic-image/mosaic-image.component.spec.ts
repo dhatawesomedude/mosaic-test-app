@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
 import { MatProgressSpinnerModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
@@ -48,7 +48,10 @@ describe('AppComponent', () => {
         { provide: AppResource, useValue: appResourceStub },
         { provide: PhotoMosaicService, useValue: photoMosaicServiceStub },
         { provide: ActivatedRoute, useValue: routerStub }
-      ]
+      ],
+      // The NO_ERRORS_SCHEMA tells the Angular compiler to ignore unrecognized elements and attributes.
+      // https://angular.io/guide/testing#no_errors_schema
+      schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     fixture = TestBed.createComponent(MosaicImageComponent);
