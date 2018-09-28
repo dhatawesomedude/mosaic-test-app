@@ -7,10 +7,10 @@ export namespace app {
   export interface ImgurGalleryItem {
     id: string;
     title?: string;
-    description?: null;
-    datetime?: Date;
+    description?: string;
+    datetime?: number;
     type: string;
-    animated?: true;
+    animated?: boolean;
     width?: number;
     height?: number;
     size?: number;
@@ -36,6 +36,7 @@ export namespace app {
     favorite_count?: number;
     score?: number;
     is_album?: boolean;
+    looping?: boolean;
   }
   export enum TileShape {
     circle = 'circle',
