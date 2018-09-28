@@ -6,36 +6,36 @@ export namespace app {
   }
   export interface ImgurGalleryItem {
     id: string;
-    title: string;
-    description: null;
-    datetime: Date;
+    title?: string;
+    description?: null;
+    datetime?: Date;
     type: string;
-    animated: true;
-    width: number;
-    height: number;
-    size: number;
-    views: number;
-    bandwidth: number;
-    favorite: boolean;
-    nsfw: boolean;
-    section: string;
-    account_url: string;
-    account_id: string;
-    is_ad: boolean;
-    in_most_viral: boolean;
-    has_sound: boolean;
-    tags: string [];
-    ad_type: number;
-    ad_url: string;
-    in_gallery: boolean;
+    animated?: true;
+    width?: number;
+    height?: number;
+    size?: number;
+    views?: number;
+    bandwidth?: number;
+    favorite?: boolean;
+    nsfw?: boolean;
+    section?: string;
+    account_url?: string;
+    account_id?: string;
+    is_ad?: boolean;
+    in_most_viral?: boolean;
+    has_sound?: boolean;
+    tags?: string [];
+    ad_type?: number;
+    ad_url?: string;
+    in_gallery?: boolean;
     link: string;
-    mp4_size: number;
-    mp4: string;
-    gifv: string;
-    comment_count: number;
-    favorite_count: number;
-    score: number;
-    is_album: boolean;
+    mp4_size?: number;
+    mp4?: string;
+    gifv?: string;
+    comment_count?: number;
+    favorite_count?: number;
+    score?: number;
+    is_album?: boolean;
   }
   export enum TileShape {
     circle = 'circle',

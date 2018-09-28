@@ -1,4 +1,8 @@
-export const imageListMock = [
+import { Component } from '@angular/core';
+import { app } from '../models/app.model';
+import ImgurGalleryItem = app.ImgurGalleryItem;
+
+export const imageListMock: ImgurGalleryItem [] = [
   {
     'id': '2AKo1bI',
     'title': 'Beaver constructs indoor dam',
@@ -11,7 +15,6 @@ export const imageListMock = [
     'size': 5745678,
     'views': 842461,
     'bandwidth': 4840509633558,
-    'vote': null,
     'favorite': false,
     'nsfw': false,
     'section': 'aww',
@@ -30,7 +33,6 @@ export const imageListMock = [
     'gifv': 'https://i.imgur.com/2AKo1bI.gifv',
     'comment_count': null,
     'favorite_count': null,
-    'ups': null,
     'downs': null,
     'points': null,
     'score': 653328,
@@ -621,3 +623,8 @@ export const imageListMock = [
     'is_album': false
   }
 ];
+
+@Component({
+  template: ''
+})
+export class DummyComponent { }

@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
-import { ActivatedRoute, Event } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import randomWords from 'random-words';
-import { finalize } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { AppResource } from '../../services/app.resource';
 import { PhotoMosaicService } from '../../services/mosaic-photo.service';
 
@@ -12,7 +13,7 @@ import { PhotoMosaicService } from '../../services/mosaic-photo.service';
   viewProviders: [PhotoMosaicService]
 })
 
-export class MosaicImageComponent implements OnInit, AfterViewInit {
+export class MosaicImageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('mosaicCanvas') readonly canvasRef: ElementRef;
 
@@ -29,6 +30,7 @@ export class MosaicImageComponent implements OnInit, AfterViewInit {
   public isLoading = false;
   public uploadError = false;
   public uploadedImageUrl: string;
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor (private route: ActivatedRoute,
                private appResource: AppResource,
@@ -37,7 +39,10 @@ export class MosaicImageComponent implements OnInit, AfterViewInit {
   public ngOnInit (): void {
     // get image-url from url params.
     if (!this.base64ImageData) {
-      this.route.params.subscribe(params => this.imageUrl = params.id);
+      this.route.params.subscribe(params => {
+        console.log('params', params);
+        this.imageUrl = params.id;
+      });
     }
   }
 
@@ -53,6 +58,7 @@ export class MosaicImageComponent implements OnInit, AfterViewInit {
       noOfHorizontalTiles: 1,
       canvasRef: this.canvasRef
     })
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.mosaicGenerated.emit());
   }
 
@@ -60,16 +66,25 @@ export class MosaicImageComponent implements OnInit, AfterViewInit {
     this.imageUploadClicked = true;
     this.isLoading = true;
 
+    // setup image
     const image = new Image();
     image.crossOrigin = 'Anonymous';
     image.src = this.canvasRef.nativeElement.toDataURL();
+    // generate a title/name for the image;
     const imageTitle = randomWords(3).join(' ');
 
     this.appResource.uploadImage (imageTitle, image.src.replace(/^data:image\/(png|jpg);base64,/, ''))
-      .pipe(finalize(() => this.isLoading = false))
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => this.isLoading = false)
+      )
       .subscribe((res) => {
         this.uploadError = false;
         this.uploadedImageUrl = res.data.link;
       }, error => this.uploadError = true);
+  }
+
+  public ngOnDestroy (): void {
+    this.destroy$.next();
   }
 }
