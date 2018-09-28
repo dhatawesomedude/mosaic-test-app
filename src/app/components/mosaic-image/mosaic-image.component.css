@@ -1,6 +1,6 @@
 .loading-spinner {
   stroke: blue;
-  margin: 0 auto;
+  margin: 10px auto 10px;
 }
 
 .mosaic-image-wrapper {
